@@ -6,27 +6,26 @@
 
 include("db_connection.php");
 
-if(!empty($_GET['name']) && !empty($_GET['email'] && !empty($_GET['phone']))) {
-	$data = array();
-
-	//Data to be inserted in basicInfo table
-	$query = "INSERT INTO basicInfo (`name`,`email`,`phone`) values('" .$_GET['name']. "','" .$_GET['email']. "','" .$_GET['phone']."')";
-		
-	$result = mysql_query($query);
+function process_data($data) {
+	if(!empty($data)) {
+		$output = json_decode($data);
+		$name = $output[0];
+		$email = $output[1];
+		$phone = $output[2];
+		if(!empty($name) && !empty($email) && !empty($phone)) {
+			$query = "INSERT INTO basicInfo (`name`,`email`,`phone`) values('" .$name. "','" .$email. "','" .$phone."')";		
+			$result = mysql_query($query);	
+		}
+		$myfile = file_put_contents('test4.txt', $data.PHP_EOL , FILE_APPEND);
 	
-	$data[0] = $_GET['name'];
-	$data[1] = $_GET['email'];
-	$data[2] = $_GET['phone'];
-	$msg = json_encode($data);
-	//writing the encoded data in test4.txt file
-	$myfile = file_put_contents('test4.txt', $msg.PHP_EOL , FILE_APPEND);
-	
-	if($result && $msg) {
-		echo "true";
+		if($result && $myfile) {
+			echo "true";
+		}
+		else {
+			echo "false";
+		}
+		exit;
 	}
-	else {
-		echo "false";
-	}
-	exit;
 }
+
 ?>
