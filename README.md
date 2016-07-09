@@ -38,7 +38,7 @@ type `$ php sendingqueue.php`
 (this file contains all the data which is to be stored in the database and also contains exchange and routing key.queueAssignment function will process all the data through publisher)
 
 through this file data is send to the queue.
-In between i will also set the binding in rabbitmq panel by setting 'AssignmentQueue_exchange' as exchange and 'AssignmentQueue_routing_key' as routing key
+In between i will also set the binding in rabbitmq panel by setting `AssignmentQueue_exchange` as exchange and `AssignmentQueue_routing_key` as routing key
 
 Run consumer
 ------------
