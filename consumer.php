@@ -7,6 +7,8 @@ $exchange = 'AssignmentQueue_exchange';
 $routing_key = 'AssignmentQueue_routing_key';
 $queue = 'AssignmentQueue';
 
+include("consumer_process.php");
+
 //Setting up is the same as the sender; we open a connection and a channel, and declare the queue from which we're going to 
 $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest','/');
 $channel = $connection->channel();
@@ -21,28 +23,10 @@ $channel = $connection->channel();
 $channel->queue_declare($queue, false, false, false, false);
 
 $callback = function($msg) {
-	$data = json_decode($msg->body, true);
-	$name = $data[0];
-	$email = $data[1];
-	$phone = $data[2];
-
-	//sending the given data to a consumer process through a curl request
- 	$url =  "http://localhost/kamal/amqplib/consumer_process.php?name=" .$name. "&email=" .$email. "&phone=" .$phone;
-    //echo "\n".$url."\n";  //exit;
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 200);
-    $curl_response = curl_exec($ch);
-
-    //echo "<pre>";
-                   // print_r(curl_getinfo($ch));
-                    //echo curl_error($ch) . " Code ", curl_errno($ch);
-    curl_close($ch);
-    if($curl_response=="true")
+	$res=process_data($msg->body);
+    if($res=="true")
     {
-     	// $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+     	$msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
 
 };
@@ -57,7 +41,7 @@ function shutdown($ch, $conn) {
     $conn->close();
 }
 
-register_shutdown_function('shutdown', $ch, $conn);
+//register_shutdown_function('shutdown', $channel, $connection);
 
 // Loop as long as the channel has callbacks registered
 
