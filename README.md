@@ -1,19 +1,19 @@
 Installing RabbitMQ
-sudo echo "deb http://www.rabbitmq.com/debian testing main" >> /etc/apt/sources.list
+--> $sudo echo "deb http://www.rabbitmq.com/debian testing main" >> /etc/apt/sources.list
 
 After the repository is added, we will add the RabbitMQ public key to our trusted key list to avoid any warnings about unsigned packages.
 
-wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-sudo apt-key add rabbitmq-signing-key-public.asc
+--> wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+--> sudo apt-key add rabbitmq-signing-key-public.asc
 
 Now we just need to run an update, and install the rabbitmq-server from our newly added package.
 
-sudo apt-get update
-sudo apt-get install rabbitmq-server
+--> sudo apt-get update
+--> sudo apt-get install rabbitmq-server
 
 To install the plugin, use the following command:
 
-sudo rabbitmq-plugins enable rabbitmq_management
+--> sudo rabbitmq-plugins enable rabbitmq_management
 
 To run it on local machine
 http://localhost:15672/
@@ -26,10 +26,10 @@ For running the required process i had saved all my files in amqlib folder which
 Location of this folder is /var/www/html/kamal/amqlib
 
 For running purpose first i will go to the current dir
-i.e cd /var/www/html/kamal/amqlib
+--> cd /var/www/html/kamal/amqlib
 
 after that i will run the sendingqueue file like
-$ php sendingqueue.php
+--> $ php sendingqueue.php
 (this file contains all the data which is to be stored in the database and also contains exchange and routing key.
 queueAssignment function will process all the data through publisher)
 
@@ -39,7 +39,7 @@ In between i will also set the binding in rabbitmq panel by setting 'AssignmentQ
 
 then i will run the consumers to do the required task.
 
-$ php consumer.php
+--> $ php consumer.php
 
 Once the consumer is run successfully then i  can check the database for successfull entry and the test4.txt file where the data is stored successfully.
 
