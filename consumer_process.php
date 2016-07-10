@@ -24,7 +24,6 @@ function process_data($data) {
 		else {
 			echo "false";
 		}
-		exit;
 	}
 }
 

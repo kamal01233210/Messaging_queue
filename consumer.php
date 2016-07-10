@@ -33,15 +33,15 @@ $callback = function($msg) {
 
 $channel->basic_consume($queue, '', false, true, false, false, $callback);
 /**
- * @param \PhpAmqpLib\Channel\AMQPChannel $ch
- * @param \PhpAmqpLib\Connection\AbstractConnection $conn
+ * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+ * @param \PhpAmqpLib\Connection\AbstractConnection $connection
  */
-function shutdown($ch, $conn) {
-    $ch->close();
-    $conn->close();
+function shutdown($channel, $connection) {
+    $channel->close();
+    $connection->close();
 }
 
-//register_shutdown_function('shutdown', $channel, $connection);
+register_shutdown_function('shutdown', $channel, $connection);
 
 // Loop as long as the channel has callbacks registered
 
