@@ -24,7 +24,7 @@ $channel->queue_declare($queue, false, false, false, false);
 
 $callback = function($msg) {
 	/*
-	function : process_data
+	function : process_data function written in consumer_process.php file
 	input: data
 	use: function is used to store the data into database and also writes it into a file
 	output: true for success case and false for unsuccessfull case
